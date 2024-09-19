@@ -26,15 +26,29 @@ jobs:
           push: true
           tags: nicknielsen/multi-client-up
 
-      # - run: docker build -t nicknielsen/multi-client-up ./client
-      - run: docker build -t nicknielsen/multi-nginx-up ./nginx
-      - run: docker build -t nicknielsen/multi-server-up ./server
-      - run: docker build -t nicknielsen/multi-worker-up ./worker
+      -
+        name: Build and push nginx
+        uses: docker/build-push-action@v6
+        with:
+          context: ./nginx
+          push: true
+          tags: nicknielsen/multi-nginx-up
 
-      # - run: docker push nicknielsen/multi-client-up
-      - run: docker push nicknielsen/multi-nginx-up
-      - run: docker push nicknielsen/multi-server-up
-      - run: docker push nicknielsen/multi-worker-up
+      -
+        name: Build and push server
+        uses: docker/build-push-action@v6
+        with:
+          context: ./server
+          push: true
+          tags: nicknielsen/multi-server-up
+
+      -
+        name: Build and push worker
+        uses: docker/build-push-action@v6
+        with:
+          context: ./worker
+          push: true
+          tags: nicknielsen/multi-worker-up
 
       # - name: Generate deployment package
       #   run: zip -r deploy.zip . -x '*.git*'
